@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>All Payment • TRX</title>
+<style>
+  :root{
+    --bg1: #020003;
+    --card: rgba(20,0,35,0.75);
+    --accent1: #6a00ff;
+    --accent2: #8f2bff;
+    --muted: #cdbef0;
+  }
+  html,body{height:100%;margin:0;}
+  body{
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #2a0040, #000000);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+
+  .container {
+    width:100%;
+    max-width:420px;
+  }
+
+  .card{
+    background:var(--card);
+    padding:22px;
+    border-radius:16px;
+    box-shadow: 0 8px 40px rgba(90,20,150,0.35);
+    text-align:center;
+    backdrop-filter: blur(6px);
+  }
+
+  h1.title{
+    margin:0 0 12px 0;
+    font-size:20px;
+    color:var(--muted);
+    text-shadow:0 0 12px rgba(140,80,255,0.12);
+  }
+
+  /* aura image */
+  .aura{
+    width:200px;
+    border-radius:10px;
+    margin:0 auto 18px auto;
+    display:block;
+    box-shadow: 0 10px 30px rgba(120,40,255,0.18);
+  }
+
+  .btn {
+    width:100%;
+    background: linear-gradient(90deg,var(--accent1),var(--accent2));
+    border: none;
+    padding:12px;
+    border-radius:12px;
+    color:#fff;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    box-shadow: 0 8px 24px rgba(120,46,255,0.22);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .btn:active{ transform: translateY(1px) scale(.996); }
+  .btn:hover{ transform: scale(1.03); box-shadow:0 14px 36px rgba(150,60,255,0.28); }
+
+  /* secondary (copy) */
+  .copy-box{
+    background: rgba(45,0,70,0.45);
+    padding:12px;
+    border-radius:12px;
+    margin-top:14px;
+    text-align:left;
+    box-shadow: inset 0 0 18px rgba(90,20,160,0.06);
+  }
+  .copy-box p{ margin:6px 0; color:#e7dcff; font-weight:600; }
+  .copy-row{display:flex;gap:8px;align-items:center;}
+  .num{flex:1;color:#f1e9ff;font-weight:700;}
+  .copy-small {
+    background:#1b1b1b; border:1px solid rgba(140,60,255,0.12);
+    color:white;padding:8px 10px;border-radius:8px;cursor:pointer;
+  }
+  .copy-small:hover{ background:linear-gradient(90deg,#7a3bff,#5d00ff); box-shadow:0 8px 20px rgba(110,30,255,0.12); }
+
+  hr.sep{ border: none; height:1px; background: linear-gradient(90deg, transparent, rgba(150,80,255,0.12), transparent); margin:18px 0; }
+
+  /* QR popup inline */
+  #qr-popup{ display:none; margin-top:14px; }
+  #qr-popup img{ width:220px; border-radius:12px; box-shadow:0 12px 36px rgba(120,40,255,0.14); }
+
+  /* music switch */
+  .music-box{ margin-top:14px; display:flex; align-items:center; gap:12px; justify-content:center; color:#e6d9ff; }
+  .music-label{ font-size:14px; color:#e6d9ff; }
+  .switch { position:relative; width:56px; height:30px; display:inline-block; }
+  .switch input{ display:none; }
+  .slider{ position:absolute; inset:0; background:#222; border-radius:30px; transition:.25s; box-shadow: inset 0 2px 6px rgba(0,0,0,0.6); }
+  .slider::before{ content:''; position:absolute; width:24px;height:24px;border-radius:50%; background:#fff; top:3px; left:3px; transition:.25s; }
+  .switch input:checked + .slider{ background: linear-gradient(90deg,var(--accent1),var(--accent2)); box-shadow:0 6px 20px rgba(120,40,255,0.2); }
+  .switch input:checked + .slider::before{ transform: translateX(26px); }
+
+  /* small note */
+  .note{ margin-top:12px; color:#d6c8ff; font-size:13px; }
+
+  /* responsive */
+  @media (max-width:420px){
+    .aura{ width:170px; }
+    #qr-popup img{ width:200px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" role="region" aria-label="Pembayaran All Payment">
+
+      <h1 class="title">All PAYMENT ARCHIRO</h1>
+
+      <!-- Aura image (picked option 3) -->
+      <img class="aura" src="https://i.supaimg.com/0d57d908-ca85-4627-8698-4e130a93472c.jpg" alt="Aura Purple Neon">
+
+      <!-- QR Toggle Button -->
+      <button id="qrBtn" class="btn" onclick="toggleQR()">Tampilkan QRIS</button>
+
+      <!-- inline QR (appear/hide) -->
+      <div id="qr-popup" aria-hidden="true">
+        <img src="https://i.supaimg.com/3306dcc9-6920-4c15-82e4-ed491d4525d2.jpg" alt="QRIS Pembayaran">
+      </div>
+
+      <hr class="sep">
+
+      <!-- DANA -->
+      <div class="copy-box" aria-label="Metode Dana">
+        <p>DANA</p>
+        <div class="copy-row">
+          <div class="num" id="dana">0856-0174-8636</div>
+          <button class="copy-small" onclick="copyText('dana')">Salin</button>
+        </div>
+      </div>
+
+      <!-- GO-PAY -->
+      <div class="copy-box" aria-label="Metode GoPay">
+        <p>GO-PAY</p>
+        <div class="copy-row">
+          <div class="num" id="gopay">0856-0174-8636</div>
+          <button class="copy-small" onclick="copyText('gopay')">Salin</button>
+        </div>
+      </div>
+
+      <hr class="sep">
+
+      <!-- Confirm -> WhatsApp -->
+      <button id="confirmBtn" class="btn" style="background:linear-gradient(90deg,#12c04a,#00a86b); color:#001;" onclick="confirmWhatsApp()">
+        Kembali ke WhatsApp
+      </button>
+
+      <!-- Music control -->
+      <div class="music-box" role="group" aria-label="Kontrol musik">
+        <span class="music-label">Musik</span>
+        <label class="switch" title="Nyalakan / Matikan musik">
+          <input type="checkbox" id="musicSwitch" aria-checked="false" onchange="toggleMusic()">
+          <span class="slider" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <div class="note">Tekan "Tampilkan QRIS all payment" untuk melihat QR — tekan lagi untuk menutup.</div>
+    </div>
+  </div>
+
+  <!-- audio (can replace src with local file) -->
+  <audio id="bgm" loop>
+    <source src="https://o.uguu.se/OJjPYWzh.mp3" type="audio/mpeg">
+  </audio>
+
+<script>
+  // QR toggle with text change
+  function toggleQR(){
+    const popup = document.getElementById('qr-popup');
+    const btn = document.getElementById('qrBtn');
+    const isHidden = popup.style.display === '' || popup.style.display === 'none';
+    if(isHidden){
+      popup.style.display = 'block';
+      popup.setAttribute('aria-hidden','false');
+      btn.textContent = 'Tutup QRIS';
+    } else {
+      popup.style.display = 'none';
+      popup.setAttribute('aria-hidden','true');
+      btn.textContent = 'Tampilkan QRIS';
+    }
+  }
+
+  // copy helper
+  function copyText(id){
+    const el = document.getElementById(id);
+    const text = el ? el.innerText.trim() : '';
+    if(!text) return alert('Tidak ada nomor untuk disalin.');
+    navigator.clipboard.writeText(text).then(()=>{
+      alert('Nomor disalin: ' + text);
+    }).catch(()=>{ alert('Gagal menyalin. Tekan lama dan salin manual.'); });
+  }
+
+  // Confirm via WhatsApp (open chat to provided number with message)
+  function confirmWhatsApp(){
+    const phone = '6285601748636';
+    const message = encodeURIComponent('Halo, Rii hitam saya membawa bukti transaksi nya ');
+    // open via wa.me (works in Android / iOS if WhatsApp installed)
+    window.location.href = 'https://wa.me/' + phone + '?text=' + message;
+  }
+
+  // Music toggle
+  const bgm = document.getElementById('bgm');
+  function toggleMusic(){
+    const sw = document.getElementById('musicSwitch');
+    if(sw.checked){
+      bgm.play().catch(()=>{/* autoplay may be blocked until user interacts */});
+      sw.setAttribute('aria-checked','true');
+    } else {
+      bgm.pause();
+      sw.setAttribute('aria-checked','false');
+    }
+  }
+
+  // initial state: hide QR
+  document.getElementById('qr-popup').style.display = 'none';
+</script>
+</body>
+</html>
